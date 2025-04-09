@@ -1,14 +1,14 @@
 import { useContext } from 'react';
-import { QuizContext, StateWithDispatch } from '../contexts/quiz';
+import { QuizContext } from '../contexts/quiz';
+import { StateWithDispatch } from '../types';
 import Question from './Question';
 
 import '../index.css';
 
 const Quiz = () => {
   const [state, dispatch] = useContext(QuizContext) as StateWithDispatch;
-  const { showResults, currentQuestionIndex, questions } = state;
-
-  console.log(state.answers);
+  const { showResults, currentQuestionIndex, questions, correctAnswersAmount } =
+    state;
 
   const handleNextQuestionClick = function () {
     dispatch({ type: 'NEXT_QUESTION' });
@@ -35,7 +35,9 @@ const Quiz = () => {
           <div className='congratulations'>Congratulations</div>
           <div className='results-info'>
             <div>You have completed the quiz!</div>
-            <div>You've got 4 of {questions.length}</div>
+            <div>
+              You've got {correctAnswersAmount} of {questions.length}
+            </div>
           </div>
           <div className='next-button' onClick={handleRestartClick}>
             Restart

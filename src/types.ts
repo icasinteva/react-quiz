@@ -11,9 +11,11 @@ export type InitialState = {
   currentQuestionIndex: number;
   questions: Question[];
   answers: string[];
+  currentAnswer: string;
+  correctAnswersAmount: number;
 };
 
-export type Action = { type: string; payload?: unknown };
+export type Action = { type: string; payload?: string };
 
 export type StateWithDispatch = [
   state: InitialState,
