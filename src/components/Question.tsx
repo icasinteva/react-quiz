@@ -4,17 +4,17 @@ import Answer from './Answer';
 
 const Question = () => {
   const [state] = useContext(QuizContext);
-  const { currentQuestionIndex, questions } = state as StateWithDispatch[0];
+  const { currentQuestionIndex, questions, answers } =
+    state as StateWithDispatch[0];
   const { question } = questions[currentQuestionIndex];
 
   return (
     <div>
       <div className='question'>{question}</div>
       <div className='answers'>
-        <Answer />
-        <Answer />
-        <Answer />
-        <Answer />
+        {answers.map((answer, idx) => (
+          <Answer key={idx} answerText={answer} />
+        ))}
       </div>
     </div>
   );

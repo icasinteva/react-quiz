@@ -1,5 +1,6 @@
 import { ActionDispatch, createContext, ReactNode, useReducer } from 'react';
 import questions from '../data';
+import { shuffleAnswers } from '../helpers';
 
 type InitialState = {
   showResults: boolean;
@@ -9,6 +10,7 @@ type InitialState = {
     incorrectAnswers: string[];
     correctAnswer: string;
   }[];
+  answers: string[];
 };
 
 type Action = { type: string; payload?: unknown };
@@ -22,6 +24,7 @@ const initialState: InitialState = {
   showResults: false,
   currentQuestionIndex: 0,
   questions,
+  answers: shuffleAnswers(questions[0]),
 };
 
 const reducer = (state: InitialState, action: Action): InitialState => {
@@ -32,11 +35,15 @@ const reducer = (state: InitialState, action: Action): InitialState => {
       const newCurrentQuestionIndex = showResults
         ? currentQuestionIndex
         : currentQuestionIndex + 1;
+      const answers = showResults
+        ? []
+        : shuffleAnswers(questions[newCurrentQuestionIndex]);
 
       return {
         ...state,
         showResults,
         currentQuestionIndex: newCurrentQuestionIndex,
+        answers,
       };
     }
     case 'RESTART': {

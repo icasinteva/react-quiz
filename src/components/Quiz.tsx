@@ -8,6 +8,8 @@ const Quiz = () => {
   const [state, dispatch] = useContext(QuizContext) as StateWithDispatch;
   const { showResults, currentQuestionIndex, questions } = state;
 
+  console.log(state.answers);
+
   const handleNextQuestionClick = function () {
     dispatch({ type: 'NEXT_QUESTION' });
   };
