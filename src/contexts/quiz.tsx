@@ -1,8 +1,13 @@
 import { ActionDispatch, createContext, ReactNode, useReducer } from 'react';
+import questions from '../data';
 
 type InitialState = {
   currentQuestionIndex: number;
-  questions: unknown[];
+  questions: {
+    question: string;
+    incorrectAnswers: string[];
+    correctAnswer: string;
+  }[];
 };
 
 type Action = { type: string; payload?: unknown };
@@ -14,7 +19,7 @@ export type StateWithDispatch = [
 
 const initialState: InitialState = {
   currentQuestionIndex: 0,
-  questions: [],
+  questions,
 };
 
 const reducer = (state: InitialState, action: Action): InitialState => {

@@ -6,6 +6,7 @@ import '../index.css';
 
 const Quiz = () => {
   const [state, dispatch] = useContext(QuizContext) as StateWithDispatch;
+  const { currentQuestionIndex, questions } = state;
 
   const handleNextQuestionClick = function () {
     dispatch({ type: 'NEXT_QUESTION' });
@@ -14,10 +15,12 @@ const Quiz = () => {
   return (
     <div className='quiz'>
       <div>
-        <div className='score'>Question 1/8</div>
+        <div className='score'>
+          Question {`${currentQuestionIndex + 1} / ${questions.length}`}
+        </div>
         <Question />
         <div className='next-button' onClick={handleNextQuestionClick}>
-          Next Question {state.currentQuestionIndex}
+          Next Question
         </div>
       </div>
     </div>
