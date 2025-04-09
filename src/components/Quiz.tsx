@@ -6,23 +6,40 @@ import '../index.css';
 
 const Quiz = () => {
   const [state, dispatch] = useContext(QuizContext) as StateWithDispatch;
-  const { currentQuestionIndex, questions } = state;
+  const { showResults, currentQuestionIndex, questions } = state;
 
   const handleNextQuestionClick = function () {
     dispatch({ type: 'NEXT_QUESTION' });
   };
 
+  const handleRestartClick = function () {
+    dispatch({ type: 'RESTART' });
+  };
+
   return (
     <div className='quiz'>
-      <div>
-        <div className='score'>
-          Question {`${currentQuestionIndex + 1} / ${questions.length}`}
+      {!showResults ? (
+        <div>
+          <div className='score'>
+            Question {`${currentQuestionIndex + 1} / ${questions.length}`}
+          </div>
+          <Question />
+          <div className='next-button' onClick={handleNextQuestionClick}>
+            Next Question
+          </div>
         </div>
-        <Question />
-        <div className='next-button' onClick={handleNextQuestionClick}>
-          Next Question
+      ) : (
+        <div className='results'>
+          <div className='congratulations'>Congratulations</div>
+          <div className='results-info'>
+            <div>You have completed the quiz!</div>
+            <div>You've got 4 of {questions.length}</div>
+          </div>
+          <div className='next-button' onClick={handleRestartClick}>
+            Restart
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

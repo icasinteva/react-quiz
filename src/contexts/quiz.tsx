@@ -2,6 +2,7 @@ import { ActionDispatch, createContext, ReactNode, useReducer } from 'react';
 import questions from '../data';
 
 type InitialState = {
+  showResults: boolean;
   currentQuestionIndex: number;
   questions: {
     question: string;
@@ -18,6 +19,7 @@ export type StateWithDispatch = [
 ];
 
 const initialState: InitialState = {
+  showResults: false,
   currentQuestionIndex: 0,
   questions,
 };
@@ -25,10 +27,20 @@ const initialState: InitialState = {
 const reducer = (state: InitialState, action: Action): InitialState => {
   switch (action.type) {
     case 'NEXT_QUESTION': {
+      const { currentQuestionIndex, questions } = state;
+      const showResults = currentQuestionIndex === questions.length - 1;
+      const newCurrentQuestionIndex = showResults
+        ? currentQuestionIndex
+        : currentQuestionIndex + 1;
+
       return {
         ...state,
-        currentQuestionIndex: state.currentQuestionIndex + 1,
+        showResults,
+        currentQuestionIndex: newCurrentQuestionIndex,
       };
+    }
+    case 'RESTART': {
+      return initialState;
     }
     default:
       return state;
