@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { QuizContext } from '../contexts/quiz';
 import { StateWithDispatch } from '../types';
 import Question from './Question';
@@ -7,8 +7,13 @@ import '../index.css';
 
 const Quiz = () => {
   const [state, dispatch] = useContext(QuizContext) as StateWithDispatch;
-  const { showResults, currentQuestionIndex, questions, correctAnswersAmount } =
-    state;
+  const {
+    showResults,
+    currentQuestionIndex,
+    questions,
+    correctAnswersAmount,
+    currentAnswer,
+  } = state;
 
   const handleNextQuestionClick = function () {
     dispatch({ type: 'NEXT_QUESTION' });
@@ -16,21 +21,43 @@ const Quiz = () => {
 
   const handleRestartClick = function () {
     dispatch({ type: 'RESTART' });
+    fetchQuestions();
   };
+
+  const fetchQuestions = () => {
+    const apiUrl =
+      'https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple&encode=url3986';
+
+    fetch(apiUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: 'LOADED_QUESTIONS', payload: data.results });
+      });
+  };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
 
   return (
     <div className='quiz'>
-      {!showResults ? (
+      {!showResults && !!questions?.length && (
         <div>
           <div className='score'>
             Question {`${currentQuestionIndex + 1} / ${questions.length}`}
           </div>
           <Question />
-          <div className='next-button' onClick={handleNextQuestionClick}>
+          <button
+            className='next-button'
+            disabled={!currentAnswer}
+            onClick={handleNextQuestionClick}
+          >
             Next Question
-          </div>
+          </button>
         </div>
-      ) : (
+      )}
+
+      {showResults && (
         <div className='results'>
           <div className='congratulations'>Congratulations</div>
           <div className='results-info'>

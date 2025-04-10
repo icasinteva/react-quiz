@@ -6,6 +6,12 @@ export interface Question {
   correctAnswer: string;
 }
 
+export interface UnNormalizedQuestion {
+  question: string;
+  incorrect_answers: string[];
+  correct_answer: string;
+}
+
 export type InitialState = {
   showResults: boolean;
   currentQuestionIndex: number;
@@ -15,9 +21,19 @@ export type InitialState = {
   correctAnswersAmount: number;
 };
 
-export type Action = { type: string; payload?: string };
+export type Action = { type: string };
+
+export type SelectAnswerAction = Action & {
+  payload: string;
+};
+
+export type LoadedQuestionsAction = Action & {
+  payload: UnNormalizedQuestion[];
+};
+
+export type QuizAction = Action | SelectAnswerAction | LoadedQuestionsAction;
 
 export type StateWithDispatch = [
   state: InitialState,
-  dispatch: ActionDispatch<[action: Action]>
+  dispatch: ActionDispatch<[action: QuizAction]>
 ];

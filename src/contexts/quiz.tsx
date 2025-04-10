@@ -1,21 +1,50 @@
 import { createContext, ReactNode, useReducer } from 'react';
-import questions from '../data';
-import { shuffleAnswers } from '../helpers';
-import { Action, InitialState, StateWithDispatch } from '../types';
+import { normalizeQuestions, shuffleAnswers } from '../helpers';
+import {
+  InitialState,
+  LoadedQuestionsAction,
+  QuizAction,
+  SelectAnswerAction,
+  StateWithDispatch,
+} from '../types';
 
 const initialState: InitialState = {
   showResults: false,
   currentQuestionIndex: 0,
-  questions,
-  answers: shuffleAnswers(questions[0]),
+  questions: [],
+  answers: [],
   currentAnswer: '',
   correctAnswersAmount: 0,
 };
 
-const reducer = (state: InitialState, action: Action): InitialState => {
-  const { type, payload } = action;
+const reducer = (state: InitialState, action: QuizAction): InitialState => {
+  const { type } = action;
 
   switch (type) {
+    case 'LOADED_QUESTIONS': {
+      const { payload } = action as LoadedQuestionsAction;
+      console.log(state, action);
+      const normalizedQuestions = normalizeQuestions(payload);
+
+      return {
+        ...state,
+        questions: normalizedQuestions,
+        answers: shuffleAnswers(normalizedQuestions[0]),
+      };
+    }
+    case 'SELECT_ANSWER': {
+      const { payload } = action as SelectAnswerAction;
+      const { currentQuestionIndex, correctAnswersAmount, questions } = state;
+      const newCorrectAnswersAmount =
+        payload === questions[currentQuestionIndex].correctAnswer
+          ? correctAnswersAmount + 1
+          : correctAnswersAmount;
+      return {
+        ...state,
+        currentAnswer: payload,
+        correctAnswersAmount: newCorrectAnswersAmount,
+      };
+    }
     case 'NEXT_QUESTION': {
       const { currentQuestionIndex, questions } = state;
       const showResults = currentQuestionIndex === questions.length - 1;
@@ -36,18 +65,6 @@ const reducer = (state: InitialState, action: Action): InitialState => {
     }
     case 'RESTART': {
       return initialState;
-    }
-    case 'SELECT_ANSWER': {
-      const { currentQuestionIndex, correctAnswersAmount, questions } = state;
-      const newCorrectAnswersAmount =
-        payload === questions[currentQuestionIndex].correctAnswer
-          ? correctAnswersAmount + 1
-          : correctAnswersAmount;
-      return {
-        ...state,
-        currentAnswer: payload!,
-        correctAnswersAmount: newCorrectAnswersAmount,
-      };
     }
     default:
       return state;

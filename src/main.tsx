@@ -5,9 +5,9 @@ import Quiz from './components/Quiz';
 import { QuizProvider } from './contexts/quiz';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QuizProvider>
-      <Quiz />
-    </QuizProvider>
-  </StrictMode>
+  // <StrictMode>
+  <QuizProvider>
+    <Quiz />
+  </QuizProvider>
+  // </StrictMode>
 );

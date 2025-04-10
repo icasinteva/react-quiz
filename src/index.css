@@ -103,6 +103,13 @@ div {
   text-transform: uppercase;
   cursor: pointer;
   text-align: center;
+  display: block;
+  border: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    background: rgba(11, 14, 33, 0.2);
+  }
 }
 
 .score {
