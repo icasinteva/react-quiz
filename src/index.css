@@ -1,3 +1,7 @@
+:root {
+  --error-color: #dc0a0a;
+}
+
 body {
   background-color: #e4e4e4;
 }
@@ -10,6 +14,8 @@ div {
   width: 975px;
   margin: 0 auto;
   margin-top: 100px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .question {
@@ -31,6 +37,13 @@ div {
 
 .congratulations {
   background-color: #0094da;
+  padding: 20px;
+  font-size: 36px;
+  color: #fff;
+}
+
+.error {
+  background-color: var(--error-color);
   padding: 20px;
   font-size: 36px;
   color: #fff;
@@ -85,11 +98,11 @@ div {
 }
 
 .wrong-answer {
-  border: 2px solid #dc0a0a;
+  border: 2px solid var(--error-color);
 }
 
 .wrong-answer .answer-letter {
-  background: #dc0a0a;
+  background: var(--error-color);
 }
 
 .next-button {
@@ -105,6 +118,7 @@ div {
   text-align: center;
   display: block;
   border: none;
+  font-family: inherit;
 
   &:disabled {
     cursor: not-allowed;

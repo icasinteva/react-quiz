@@ -19,6 +19,7 @@ export type InitialState = {
   answers: string[];
   currentAnswer: string;
   correctAnswersAmount: number;
+  error: Error | null;
 };
 
 export type Action = { type: string };
@@ -31,7 +32,15 @@ export type LoadedQuestionsAction = Action & {
   payload: UnNormalizedQuestion[];
 };
 
-export type QuizAction = Action | SelectAnswerAction | LoadedQuestionsAction;
+export type FailedLoadQuestionsAction = Action & {
+  payload: Error;
+};
+
+export type QuizAction =
+  | Action
+  | SelectAnswerAction
+  | LoadedQuestionsAction
+  | FailedLoadQuestionsAction;
 
 export type StateWithDispatch = [
   state: InitialState,

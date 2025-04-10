@@ -13,6 +13,7 @@ const Quiz = () => {
     questions,
     correctAnswersAmount,
     currentAnswer,
+    error,
   } = state;
 
   const handleNextQuestionClick = function () {
@@ -32,6 +33,9 @@ const Quiz = () => {
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: 'LOADED_QUESTIONS', payload: data.results });
+      })
+      .catch((err: Error) => {
+        dispatch({ type: 'FAILED_LOAD_QUESTIONS', payload: err });
       });
   };
 
@@ -41,7 +45,19 @@ const Quiz = () => {
 
   return (
     <div className='quiz'>
-      {!showResults && !!questions?.length && (
+      {error && (
+        <div className='results'>
+          <div className='error'>Server error</div>
+          <div className='results-info'>
+            <div>{error.message}</div>
+          </div>
+          <div className='next-button' onClick={handleRestartClick}>
+            Try again
+          </div>
+        </div>
+      )}
+
+      {!showResults && !error && !!questions?.length && (
         <div>
           <div className='score'>
             Question {`${currentQuestionIndex + 1} / ${questions.length}`}

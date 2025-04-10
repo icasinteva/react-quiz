@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useReducer } from 'react';
 import { normalizeQuestions, shuffleAnswers } from '../helpers';
 import {
+  FailedLoadQuestionsAction,
   InitialState,
   LoadedQuestionsAction,
   QuizAction,
@@ -15,6 +16,7 @@ const initialState: InitialState = {
   answers: [],
   currentAnswer: '',
   correctAnswersAmount: 0,
+  error: null,
 };
 
 const reducer = (state: InitialState, action: QuizAction): InitialState => {
@@ -65,6 +67,14 @@ const reducer = (state: InitialState, action: QuizAction): InitialState => {
     }
     case 'RESTART': {
       return initialState;
+    }
+    case 'FAILED_LOAD_QUESTIONS': {
+      const { payload } = action as FailedLoadQuestionsAction;
+
+      return {
+        ...state,
+        error: payload,
+      };
     }
     default:
       return state;
