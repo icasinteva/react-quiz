@@ -39,19 +39,17 @@ const Quiz = () => {
       });
   };
 
-  useEffect(() => {
-    fetchQuestions();
-  }, []);
+  useEffect(fetchQuestions, []);
 
   return (
     <div className='quiz'>
       {error && (
-        <div className='results'>
-          <div className='error'>Server error</div>
-          <div className='results-info'>
+        <div className='quiz-error'>
+          <div className='title'>Server error</div>
+          <div className='quiz-error--info'>
             <div>{error.message}</div>
           </div>
-          <div className='next-button' onClick={handleRestartClick}>
+          <div className='button' onClick={handleRestartClick}>
             Try again
           </div>
         </div>
@@ -59,12 +57,12 @@ const Quiz = () => {
 
       {!showResults && !error && !!questions?.length && (
         <div>
-          <div className='score'>
+          <div className='quiz-info'>
             Question {`${currentQuestionIndex + 1} / ${questions.length}`}
           </div>
           <Question />
           <button
-            className='next-button'
+            className='button'
             disabled={!currentAnswer}
             onClick={handleNextQuestionClick}
           >
@@ -74,15 +72,15 @@ const Quiz = () => {
       )}
 
       {showResults && (
-        <div className='results'>
-          <div className='congratulations'>Congratulations</div>
-          <div className='results-info'>
+        <div className='quiz-results'>
+          <div className='title'>Congratulations</div>
+          <div className='quiz-results--info'>
             <div>You have completed the quiz!</div>
             <div>
               You've got {correctAnswersAmount} of {questions.length}
             </div>
           </div>
-          <div className='next-button' onClick={handleRestartClick}>
+          <div className='button' onClick={handleRestartClick}>
             Restart
           </div>
         </div>

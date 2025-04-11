@@ -1,5 +1,6 @@
 :root {
   --error-color: #dc0a0a;
+  --primary-color: #0094da;
 }
 
 body {
@@ -19,8 +20,8 @@ div {
 }
 
 .question {
-  background-color: #0094da;
-  color: white;
+  background-color: var(--primary-color);
+  color: #fff;
   padding: 10px;
   min-height: 60px;
   display: flex;
@@ -29,40 +30,29 @@ div {
   font-size: 24px;
 }
 
-.results {
+.quiz-results,
+.quiz-error {
   background-color: #fff;
   height: 300px;
   text-align: center;
 }
 
-.congratulations {
-  background-color: #0094da;
+.title {
+  background-color: var(--primary-color);
   padding: 20px;
   font-size: 36px;
   color: #fff;
 }
 
-.error {
+.quiz-error .title {
   background-color: var(--error-color);
-  padding: 20px;
-  font-size: 36px;
-  color: #fff;
 }
 
-.results-info {
+.quiz-results--info,
+.quiz-error--info {
   margin-top: 40px;
   margin-bottom: 40px;
   font-size: 18px;
-}
-
-.answer {
-  width: 48%;
-  background: #fff;
-  border: 2px solid #0094da;
-  min-height: 70px;
-  cursor: pointer;
-  margin-bottom: 30px;
-  display: flex;
 }
 
 .answers {
@@ -74,7 +64,7 @@ div {
 
 .answer-letter {
   font-size: 30px;
-  background-color: #0084da;
+  background-color: var(--primary-color);
   color: #fff;
   width: 70px;
   display: flex;
@@ -89,23 +79,37 @@ div {
   margin-left: 20px;
 }
 
-.correct-answer {
-  border: 2px solid #1ea55b;
+.answer {
+  width: 48%;
+  background: #fff;
+  border: 2px solid #0094da;
+  min-height: 70px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  display: flex;
 }
 
-.correct-answer .answer-letter {
+.answer-correct {
+  border-color: #1ea55b;
+}
+
+.answer-correct .answer-letter {
   background: #1ea55b;
 }
 
-.wrong-answer {
-  border: 2px solid var(--error-color);
+.answer-wrong {
+  border-color: var(--error-color);
 }
 
-.wrong-answer .answer-letter {
+.answer-wrong .answer-letter {
   background: var(--error-color);
 }
 
-.next-button {
+.answer-disabled {
+  pointer-events: none;
+}
+
+.button {
   margin: 0 auto;
   color: #fff;
   background: #0b0e21;
@@ -126,7 +130,7 @@ div {
   }
 }
 
-.score {
+.quiz-info {
   background: #fff;
   color: 000;
   font-size: 18px;
@@ -138,8 +142,4 @@ div {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.disabled-answer {
-  pointer-events: none;
 }

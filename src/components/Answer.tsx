@@ -20,9 +20,9 @@ const Answer = ({
   return (
     <div
       className={classnames('answer', {
-        'correct-answer': isCorrectAnswer,
-        'wrong-answer': isWrongAnswer,
-        'disabled-answer': currentAnswer,
+        'answer-correct': isCorrectAnswer,
+        'answer-wrong': isWrongAnswer,
+        'answer-disabled': currentAnswer,
       })}
       onClick={() => onSelectAnswer(answerText)}
     >
